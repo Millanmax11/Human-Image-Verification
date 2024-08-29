@@ -1,0 +1,27 @@
+{% load static %}
+{% load custom_tags %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CAPTCHA</title>
+    <style>
+        img{
+            width:250px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Select the image of: {{ captcha_label }}</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <img src="data:image/png;base64,{{ captcha_image_base64 }}" alt="CAPTCHA">
+        <br>
+        {% for i in num_images|range_filter %}
+        <input type="radio" name="captcha" value="{{ i }}"> Image {{ i|add:"1" }}
+        {% endfor %}
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
